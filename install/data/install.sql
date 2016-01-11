@@ -4090,3 +4090,63 @@ CREATE TABLE pre_security_failedlog (
   KEY uid (uid)
 ) TYPE=MyISAM;
 
+
+# 改变用户名称最大长度，由 char(16) 改为 char(24)
+# 以及其他相关字段
+
+ALTER TABLE pre_ucenter_members CHANGE username username char(24) NOT NULL DEFAULT '' COMMENT '用户名';
+ALTER TABLE pre_forum_thread CHANGE author author char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_thread CHANGE lastposter lastposter char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_post CHANGE author author char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_postcomment CHANGE author author char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_tradecomment CHANGE rater rater char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_tradecomment CHANGE ratee ratee char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_collectioncomment CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_comment CHANGE author author char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_docomment CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_portal_comment CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_debate CHANGE umpire umpire char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_groupuser CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_order CHANGE admin admin char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_pollvoter CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_promotion CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_ratelog CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_threadmod CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_trade CHANGE seller seller char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_trade CHANGE lastbuyer lastbuyer char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_tradelog CHANGE seller seller char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_tradelog CHANGE buyer buyer char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_warning CHANGE operator operator char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_forum_warning CHANGE author author char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_album CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_blog CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_doing CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_feed CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_feed_app CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_follow CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_follow CHANGE fusername fusername char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_follow_feed CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_follow_feed_archiver CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_friend CHANGE fusername fusername char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_friend_request CHANGE fusername fusername char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_notification CHANGE author author char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_pic CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_poke CHANGE fromusername fromusername char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_share CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_show CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_specialuser CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_specialuser CHANGE opusername opusername char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_home_visitor CHANGE vusername vusername char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_ucenter_admins CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_ucenter_feeds CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_ucenter_protectedmembers CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_ucenter_protectedmembers CHANGE admin admin char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_common_member CHANGE username username char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_common_member_crime CHANGE operator operator char(24) NOT NULL DEFAULT '';
+ALTER TABLE pre_common_invite CHANGE fusername fusername char(24) NOT NULL DEFAULT '';
+
+# 改变最后回复字段类型为 TEXT，以显示完整的最后回复信息
+# 最小所需长度计算如下：（function_post.php）
+# 8(tid) + 1(tab) + 255(subject) + 1(tab) + 10(lastpostdateline) + 1(tab) + 24(username) = 290
+
+ALTER TABLE pre_forum_forum CHANGE lastpost lastpost TEXT NOT NULL DEFAULT '';
