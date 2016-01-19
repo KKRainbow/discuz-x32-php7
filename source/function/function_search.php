@@ -40,6 +40,10 @@ function highlight($text, $words, $prepend) {
 	$text = str_replace('\"', '"', $text);
 	foreach($words AS $key => $replaceword) {
 		//$text = str_ireplace($replaceword, '<highlight>'.$replaceword.'</highlight>', $text);
+        if (empty(trim($replaceword))) {
+            continue;
+        }
+        $replaceword = str_replace('+', '\\+', $replaceword);
         $text = preg_replace_callback("/($replaceword)/siU", function($matches) { return "<highlight>{$matches[0]}</highlight>" ;}, $text);
 	}
 	return "$prepend$text";
