@@ -39,7 +39,8 @@ function searchkey($keyword, $field, $returnsrchtxt = 0) {
 function highlight($text, $words, $prepend) {
 	$text = str_replace('\"', '"', $text);
 	foreach($words AS $key => $replaceword) {
-		$text = str_replace($replaceword, '<highlight>'.$replaceword.'</highlight>', $text);
+		//$text = str_ireplace($replaceword, '<highlight>'.$replaceword.'</highlight>', $text);
+        $text = preg_replace_callback("/($replaceword)/siU", function($matches) { return "<highlight>{$matches[0]}</highlight>" ;}, $text);
 	}
 	return "$prepend$text";
 }
@@ -52,7 +53,7 @@ function bat_highlight($message, $words, $color = '#ff0000') {
 			$specialextra = substr($message, $sppos + 3);
 			$message = substr($message, 0, $sppos);
 		}
-		$message = preg_replace_callback("/(^|>)([^<]+)(?=<|$)/sU", function($matches) use($highlightarray) { return highlight($matches[2], $highlightarray, $matches[1]); }, $message);
+		$message = preg_replace_callback("/(^|>)([^<]+)(?=<|$)/siU", function($matches) use($highlightarray) { return highlight($matches[2], $highlightarray, $matches[1]); }, $message);
         $message = preg_replace("/<highlight>(.*)<\/highlight>/siU", "<strong><font color=\"$color\">\\1</font></strong>", $message);
 		if($sppos !== FALSE) {
 			$message = $message.chr(0).chr(0).chr(0).$specialextra;
